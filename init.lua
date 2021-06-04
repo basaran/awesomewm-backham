@@ -1,5 +1,8 @@
--- allows automatically focusing back to the previous client
--- on window close or minimize.
+
+--+ allows automatically focusing back to the previous client
+--> on window close (unmanage) or minimize.
+
+-------------------------------------------------------------------> methods ;
 
 function backham()
     local s = awful.screen.focused()
@@ -10,8 +13,10 @@ function backham()
     end
 end
 
+--------------------------------------------------------------------> signal ;
+
 client.connect_signal("property::minimized", backham)
--- attach to minimized state
+--+ attach to minimized state
 
 client.connect_signal("unmanage", backham)
--- attach to closed state
+--+ attach to closed state
