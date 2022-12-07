@@ -2,6 +2,10 @@
 --+ allows automatically focusing back to the previous client
 --> on window close (unmanage) or minimize.
 
+-------------------------------------------------------------------> imports ;
+
+local awful = require("awful")
+
 -------------------------------------------------------------------> methods ;
 
 function backham()
