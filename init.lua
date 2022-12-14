@@ -24,3 +24,23 @@ client.connect_signal("property::minimized", backham)
 
 client.connect_signal("unmanage", backham)
 --+ attach to closed state
+
+--------------------------------------------------------
+-- Fixes the problem of losing focus after changing the workspace
+
+-- Grab focus on first client on screen
+function grab_focus()
+    local all_clients = client.get()
+    for i, c in pairs(all_clients) do
+        if c:isvisible() and c.class ~= "Conky" then
+            client.focus = c
+        end
+    end
+end
+
+-- Bind all key numbers to tags.
+if tags[screen][i] then
+    awful.tag.viewonly(tags[screen][i])
+    grab_focus()
+end
+
