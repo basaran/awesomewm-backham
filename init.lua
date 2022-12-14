@@ -25,22 +25,24 @@ client.connect_signal("property::minimized", backham)
 client.connect_signal("unmanage", backham)
 --+ attach to closed state
 
---------------------------------------------------------
--- Fixes the problem of losing focus after changing the workspace
-
--- Grab focus on first client on screen
-function grab_focus()
-    local all_clients = client.get()
-    for i, c in pairs(all_clients) do
-        if c:isvisible() and c.class ~= "Conky" then
-            client.focus = c
-        end
+local function focus_after_tag_change()
+    local current_tag = awful.tag.selected(1)
+    if current_tag == nil then 
+        return nil
     end
+
+    local table_of_clients = current_tag:clients()
+    local last_client = table_of_clients[#table_of_clients]
+    local first_client = table_of_clients[0] or table_of_clients[1]
+
+    local c = last_client ~= nil and last_client or first_client
+
+    if c == nil then
+        return nil
+    end
+    		
+    client.focus = c
+    c:raise()
 end
 
--- Bind all key numbers to tags.
-if tags[screen][i] then
-    awful.tag.viewonly(tags[screen][i])
-    grab_focus()
-end
-
+tag.connect_signal("property::selected", focus_after_tag_change)
