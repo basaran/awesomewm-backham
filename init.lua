@@ -24,3 +24,7 @@ client.connect_signal("property::minimized", backham)
 
 client.connect_signal("unmanage", backham)
 --+ attach to closed state
+
+tag.connect_signal("property::selected", backham) 
+--|ensure there is always a selected client during tag
+--|switching or logins
